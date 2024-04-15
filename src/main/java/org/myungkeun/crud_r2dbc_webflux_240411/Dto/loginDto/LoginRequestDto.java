@@ -1,15 +1,15 @@
-package org.myungkeun.crud_r2dbc_webflux_240411.Dto.registerDto;
+package org.myungkeun.crud_r2dbc_webflux_240411.Dto.loginDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.myungkeun.crud_r2dbc_webflux_240411.entities.User;
 
 @Data
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterResponseDto {
-    private User data;
+public class LoginRequestDto {
+    private String email;
+    private String password;
 }

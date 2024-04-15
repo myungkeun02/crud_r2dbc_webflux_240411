@@ -2,6 +2,8 @@ package org.myungkeun.crud_r2dbc_webflux_240411.controllers;
 
 import lombok.AllArgsConstructor;
 import org.myungkeun.crud_r2dbc_webflux_240411.Dto.BaseResponseDto;
+import org.myungkeun.crud_r2dbc_webflux_240411.Dto.loginDto.LoginRequestDto;
+import org.myungkeun.crud_r2dbc_webflux_240411.Dto.loginDto.LoginResponseDto;
 import org.myungkeun.crud_r2dbc_webflux_240411.Dto.registerDto.RegisterRequestDto;
 import org.myungkeun.crud_r2dbc_webflux_240411.Dto.registerDto.RegisterResponseDto;
 import org.myungkeun.crud_r2dbc_webflux_240411.services.AuthService;
@@ -37,5 +39,25 @@ public class AuthController {
                                 .build()
                         )));
 
+    }
+
+    @PostMapping("/login")
+    public Mono<ResponseEntity<BaseResponseDto<LoginResponseDto>>> login(
+            @RequestBody LoginRequestDto request
+    ) {
+        return authService.login(request)
+                .map(token -> ResponseEntity.ok(BaseResponseDto.<LoginResponseDto>builder()
+                        .statusCode(200)
+                        .message("success")
+                        .data(new LoginResponseDto(token))
+                        .build()))
+                .onErrorResume(throwable -> Mono.just(ResponseEntity
+                        .status(HttpStatus.FORBIDDEN)
+                        .body(BaseResponseDto.<LoginResponseDto>builder()
+                                .statusCode(HttpStatus.FORBIDDEN.value())
+                                .message(throwable.getMessage())
+                                .data(new LoginResponseDto(null))
+                                .build()
+                        )));
     }
 }
