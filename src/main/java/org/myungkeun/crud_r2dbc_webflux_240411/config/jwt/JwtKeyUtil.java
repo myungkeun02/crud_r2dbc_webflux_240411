@@ -19,8 +19,8 @@ public class JwtKeyUtil {
     private String secretKey;
     public Key getPrivateKey() {
         try {
-            byte[] privateKeyByte = Base64.getDecoder().decode(secretKey);
-            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(privateKeyByte);
+            byte[] privateKeyBytes = Base64.getDecoder().decode(secretKey);
+            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(privateKeyBytes);
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return kf.generatePrivate(spec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
